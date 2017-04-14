@@ -38,6 +38,7 @@ if 'bpy' in globals():
 
     if 'xbc_nodeview_console' in globals():
         import imp
+        imp.reload(utils.xbc_bgl_lib)
         imp.reload(xbc_nodeview_console)
         imp.reload(xbc_nodeview_console_routing)
         imp.reload(xbc_nodeview_macro_routing)
@@ -46,7 +47,10 @@ if 'bpy' in globals():
 
 
 else:
-    from . import xbc_operators
+    from .utils import xbc_bgl_lib
+    from . import xbc_nodeview_console
+    from . import xbc_nodeview_macro_routing
+    from . import xbc_nodeview_console_routing
     from .keymaps import console_keymaps
 
 import bpy
@@ -54,7 +58,7 @@ import bpy
 
 def register():
     bpy.utils.register_module(__name__)
-    console_keymaps.add_keymap(__package__)
+    console_keymaps.add_keymap()
 
 
 def unregister():

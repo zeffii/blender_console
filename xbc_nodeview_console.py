@@ -24,16 +24,17 @@ import bgl
 import blf
 from bpy.types import SpaceNodeEditor
 
-# import sverchok
-# from sverchok.menu import make_node_cats
+import sverchok
+from sverchok.menu import make_node_cats
 
-from xbc_nodeview_macro_routing import route_as_macro
-from xbc_nodeview_console_routing import route_as_websearch
-from .. utils.sv_bgl_lib import draw_rect, draw_border
+from .xbc_nodeview_macro_routing import route_as_macro
+from .xbc_nodeview_console_routing import route_as_websearch
+from .utils.xbc_bgl_lib import draw_rect, draw_border
 
 # pylint: disable=C0326
 # pylint: disable=w0612
 
+sv_types = {'SverchCustomTreeType', 'SverchGroupTreeType'}
 ddir = lambda content: [n for n in dir(content) if not n.startswith('__')]
 
 ### ---- Key Handling ----------------------------------------------------------
@@ -172,9 +173,9 @@ def draw_callback_px(self, context, start_position):
     bgl.glColor4f(0.0, 0.0, 0.0, 1.0)
 
 
-class SvNodeViewConsoleOne(bpy.types.Operator):
-    """Implementing Search fuzzyness"""
-    bl_idname = "node.sv_nodeview_console"
+class XBCNodeViewConsole(bpy.types.Operator):
+    """Implementing of bgl console"""
+    bl_idname = "node.xbc_nodeview_console"
     bl_label = "Nodeview Console"
 
     current_string = bpy.props.StringProperty()
@@ -184,12 +185,7 @@ class SvNodeViewConsoleOne(bpy.types.Operator):
 
     @classmethod
     def poll(cls, context):
-        sv_types = {'SverchCustomTreeType', 'SverchGroupTreeType'}
-        if context.space_data.type == 'NODE_EDITOR':
-            if bpy.context.space_data.tree_type in sv_types:
-                return True
-        else:
-            return False
+        return context.space_data.type == 'NODE_EDITOR'
 
 
     def ensure_nodetree(self, context):
@@ -197,6 +193,9 @@ class SvNodeViewConsoleOne(bpy.types.Operator):
         if no active nodetree
         add new empty node tree, set fakeuser immediately
         '''
+        if not context.space_data.tree_type in sv_types:
+            print('not running from a sv nodetree')
+            return
 
         if not hasattr(context.space_data.edit_tree, 'nodes'):
             msg_one = 'going to add a new empty node tree'
@@ -272,7 +271,7 @@ class SvNodeViewConsoleOne(bpy.types.Operator):
             return {'CANCELLED'}
 
 
-classes = [SvNodeViewConsoleOne,]
+classes = [XBCNodeViewConsole,]
 
 
 def register():
