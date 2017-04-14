@@ -24,11 +24,12 @@ import bgl
 import blf
 from bpy.types import SpaceNodeEditor
 
-import sverchok
-from sverchok.menu import make_node_cats
-from sverchok.utils.sv_nodeview_macro_routing import route_as_macro
-from sverchok.utils.sv_nodeview_console_routing import route_as_websearch
-from sverchok.utils.sv_bgl_lib import draw_rect, draw_border
+# import sverchok
+# from sverchok.menu import make_node_cats
+
+from xbc_nodeview_macro_routing import route_as_macro
+from xbc_nodeview_console_routing import route_as_websearch
+from .. utils.sv_bgl_lib import draw_rect, draw_border
 
 # pylint: disable=C0326
 # pylint: disable=w0612
