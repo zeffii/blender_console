@@ -43,7 +43,7 @@ if 'bpy' in globals():
         imp.reload(xbc_nodeview_console_routing)
         imp.reload(xbc_nodeview_macro_routing)
         imp.reload(keymaps.console_keymaps)
-        print_addon_msg(__package__, ': reloaded')
+        print(__package__, ': reloaded')
 
 
 else:
