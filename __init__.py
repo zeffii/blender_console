@@ -24,8 +24,8 @@
 bl_info = {
     "name": "blender console",
     "author": "Dealga McArdle",
-    "version": (0, 1, 0),
-    "blender": (2, 7, 8),
+    "version": (0, 2, 0),
+    "blender": (2, 9, 3),
     "location": "Console - keystrokes",
     "description": "Adds feature to intercept console input and parse accordingly.",
     "wiki_url": "",

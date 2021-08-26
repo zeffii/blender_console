@@ -272,11 +272,5 @@ class XBCNodeViewConsole(bpy.types.Operator):
 
 
 classes = [XBCNodeViewConsole,]
+register, unregister = bpy.utils.register_classes_factory(classes)
 
-
-def register():
-    _ = [bpy.utils.register_class(cls) for cls in classes]
-
-
-def unregister():
-    _ = [bpy.utils.unregister_class(cls) for cls in classes]
