@@ -124,8 +124,11 @@ search_colors = (text_highest, text_high, text_low)
 def draw_string(x, y, packed_strings):
     x_offset = 0
     font_id = 0
-    for pstr, pcol in packed_strings:
+    for pdx, (pstr, pcol) in enumerate(packed_strings):
         pstr2 = ' ' + pstr + ' '
+        # if pdx == len(packed_strings) - 1:
+        #     pstr2 += "<"
+
         #bgl.glColor4f(*pcol)
         blf.color(font_id, *pcol)
         text_width, text_height = blf.dimensions(font_id, pstr2)
@@ -168,8 +171,8 @@ def draw_callback_px(self, context, start_position):
             if '.' in search_item_result[2]:
                 search_item_result[2] = search_item_result[2].replace('.', '/')
 
-            #if idx == self.current_index:
-            #    search_item_result += ' <'
+            if idx == self.current_index + 1:
+                search_item_result[2] += ' <'
             draw_string(nx, ny, zip(search_item_result, search_colors))                
   
     # restore opengl defaults
