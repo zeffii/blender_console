@@ -121,20 +121,21 @@ console_bg_color = [0.028426, 0.028426, 0.028426, 1.0]
 search_colors = (text_highest, text_high, text_low)
 
 
-def draw_string(x, y, packed_strings):
+def draw_string(x, y, packed_strings, highlite=False):
     x_offset = 0
     font_id = 0
-    for pdx, (pstr, pcol) in enumerate(packed_strings):
+    for pstr, pcol in packed_strings:
         pstr2 = ' ' + pstr + ' '
-        # if pdx == len(packed_strings) - 1:
-        #     pstr2 += "<"
 
-        #bgl.glColor4f(*pcol)
         blf.color(font_id, *pcol)
         text_width, text_height = blf.dimensions(font_id, pstr2)
         blf.position(font_id, (x + x_offset), y, 0)
         blf.draw(font_id, pstr2)
-        x_offset += text_width 
+        x_offset += text_width
+    if highlite:
+        blf.position(font_id, x_offset + 20, y, 0)
+        blf.draw(font_id, " <")        
+
 
 
 def draw_callback_px(self, context, start_position):
@@ -171,9 +172,9 @@ def draw_callback_px(self, context, start_position):
             if '.' in search_item_result[2]:
                 search_item_result[2] = search_item_result[2].replace('.', '/')
 
-            if idx == self.current_index + 1:
-                search_item_result[2] += ' <'
-            draw_string(nx, ny, zip(search_item_result, search_colors))                
+            highlite = (idx == self.current_index + 1)
+            
+            draw_string(nx, ny, zip(search_item_result, search_colors), highlite) 
   
     # restore opengl defaults
     # bgl.glLineWidth(1)
