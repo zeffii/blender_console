@@ -25,19 +25,20 @@ bl_info = {
     "name": "blender console",
     "author": "Dealga McArdle",
     "version": (0, 2, 0),
-    "blender": (2, 9, 3),
-    "location": "Console - keystrokes",
+    "blender": (2, 93, 0),
     "description": "Adds feature to intercept console input and parse accordingly.",
     "wiki_url": "",
     "tracker_url": "",
-    "category": "Nodeview"}
+    "location": "Node Editor",
+    "category": "Node"
+    }
 
 if 'bpy' in globals():
     msg = ": detected reload event! cool."
     print(__package__ + msg)
 
     if 'xbc_nodeview_console' in globals():
-        import imp
+        import importlib as imp
         imp.reload(utils.xbc_bgl_lib)
         imp.reload(xbc_nodeview_console)
         imp.reload(xbc_nodeview_console_routing)
@@ -57,11 +58,11 @@ import bpy
 
 
 def register():
-    bpy.utils.register_module(__name__)
+    xbc_nodeview_console.register()
     console_keymaps.add_keymap()
 
 
 def unregister():
     console_keymaps.remove_keymap()
-    bpy.utils.unregister_module(__name__)
+    xbc_nodeview_console.unregister()
 

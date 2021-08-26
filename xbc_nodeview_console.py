@@ -20,7 +20,7 @@
 import string
 
 import bpy
-import bgl
+# import bgl
 import blf
 from bpy.types import SpaceNodeEditor
 
@@ -126,7 +126,8 @@ def draw_string(x, y, packed_strings):
     font_id = 0
     for pstr, pcol in packed_strings:
         pstr2 = ' ' + pstr + ' '
-        bgl.glColor4f(*pcol)
+        #bgl.glColor4f(*pcol)
+        blf.color(font_id, *pcol)
         text_width, text_height = blf.dimensions(font_id, pstr2)
         blf.position(font_id, (x + x_offset), y, 0)
         blf.draw(font_id, pstr2)
@@ -143,12 +144,14 @@ def draw_callback_px(self, context, start_position):
     font_id = 0
 
     # draw some text
-    bgl.glColor4f(0.0, 0.0, 0.0, 1.0)
+    # bgl.glColor4f(0.0, 0.0, 0.0, 1.0)
+    #      blf.color(font_id, *color) sets text
+    
     blf.position(font_id, 20, height-40, 0)
     blf.size(font_id, 12, 72)
     blf.draw(font_id, '>>> ' + self.current_string)
 
-    draw_rect(x=0, y=height-46, w=width, h=10*20, color=console_bg_color)
+    # draw_rect(x=0, y=height-46, w=width, h=10*20, color=console_bg_color)
     
     nx = 20
     found_results = flat_node_cats.get('list_return')
@@ -156,8 +159,8 @@ def draw_callback_px(self, context, start_position):
     if found_results:
 
         # // highlight
-        draw_rect(x=0, y=begin_height-(20*self.current_index)-7, w=width, h=18, color=highcol, color2=lowcol)
-        draw_border(x=0, y=begin_height-(20*self.current_index)-7, w=width, h=18, color=(0.3, 0.3, 0.9, 1.0))
+        # draw_rect(x=0, y=begin_height-(20*self.current_index)-7, w=width, h=18, color=highcol, color2=lowcol)
+        # draw_border(x=0, y=begin_height-(20*self.current_index)-7, w=width, h=18, color=(0.3, 0.3, 0.9, 1.0))
 
         # // draw search items
         for idx, search_item_result in enumerate(found_results, start=1):
@@ -165,12 +168,14 @@ def draw_callback_px(self, context, start_position):
             if '.' in search_item_result[2]:
                 search_item_result[2] = search_item_result[2].replace('.', '/')
 
+            #if idx == self.current_index:
+            #    search_item_result += ' <'
             draw_string(nx, ny, zip(search_item_result, search_colors))                
   
     # restore opengl defaults
-    bgl.glLineWidth(1)
-    bgl.glDisable(bgl.GL_BLEND)
-    bgl.glColor4f(0.0, 0.0, 0.0, 1.0)
+    # bgl.glLineWidth(1)
+    # bgl.glDisable(bgl.GL_BLEND)
+    # bgl.glColor4f(0.0, 0.0, 0.0, 1.0)
 
 
 class XBCNodeViewConsole(bpy.types.Operator):
@@ -178,10 +183,10 @@ class XBCNodeViewConsole(bpy.types.Operator):
     bl_idname = "node.xbc_nodeview_console"
     bl_label = "Nodeview Console"
 
-    current_string = bpy.props.StringProperty()
-    chosen_bl_idname = bpy.props.StringProperty()
-    current_index = bpy.props.IntProperty(default=0)
-    new_direction = bpy.props.IntProperty(default=1)
+    current_string: bpy.props.StringProperty()
+    chosen_bl_idname: bpy.props.StringProperty()
+    current_index: bpy.props.IntProperty(default=0)
+    new_direction: bpy.props.IntProperty(default=1)
 
     @classmethod
     def poll(cls, context):

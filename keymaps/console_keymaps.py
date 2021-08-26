@@ -12,7 +12,7 @@ def add_keymap():
         km = kc.keymaps.new(name='Node Editor', space_type='NODE_EDITOR')
 
         # ctrl+F        ( show the nodeview console)
-        kmi = km.keymap_items.new('node.xbc_nodeview_console', 'F', 'PRESS', ctrl=True)
+        kmi = km.keymap_items.new('node.xbc_nodeview_console', 'SEMI_COLON', 'PRESS', shift=True)
         nodeview_keymaps.append((km, kmi))
 
 
