@@ -117,7 +117,7 @@ def route_as_nodelookup(operator, context):
 text_highest = (0.99, 0.99, 0.99, 1.0)
 text_high = (0.93, 0.93, 0.93, 1.0)
 text_low = (0.83, 0.83, 0.83, 1.0)
-highcol = [0.215861, 0.539657, 1.0, 1.0]
+highcol = [0.255861, 0.539657, 1.0, 1.0]
 lowcol = [0.215861, 0.439657, 1.0, 1.0]
 console_bg_color = [0.028426, 0.028426, 0.028426, 1.0]
 
@@ -167,7 +167,7 @@ def draw_callback_px(self, context, start_position):
 
         # // highlight
         # draw_rect(x=0, y=begin_height-(20*self.current_index)-7, w=width, h=18, color=highcol, color2=lowcol)
-        canvas.add_rect(0, begin_height-(20*self.current_index)-7, width, 18, lowcol)
+        canvas.add_rect(0, begin_height-(20*self.current_index)-7, width, 18, lowcol, highcol)
         # draw_border(x=0, y=begin_height-(20*self.current_index)-7, w=width, h=18, color=(0.3, 0.3, 0.9, 1.0))
         canvas.add_rect_outline(0, begin_height-(20*self.current_index)-7, width, 18, 0.2, "inside", (0.3, 0.3, 0.9, 1.0))
 
