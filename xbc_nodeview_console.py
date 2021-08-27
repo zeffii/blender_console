@@ -22,10 +22,13 @@ import string
 import bpy
 # import bgl
 import blf
+import gpu
+from gpu_extras.batch import batch_for_shader
 from bpy.types import SpaceNodeEditor
 
 import sverchok
 from sverchok.menu import make_node_cats
+from sverchok.utils.modules.shader_utils import ShaderLib2D
 
 from .xbc_nodeview_macro_routing import route_as_macro
 from .xbc_nodeview_console_routing import route_as_websearch
@@ -136,7 +139,12 @@ def draw_string(x, y, packed_strings, highlite=False):
         blf.position(font_id, x_offset + 20, y, 0)
         blf.draw(font_id, " <")        
 
-
+def draw_prompt(height, caret, current_string):
+    font_id = 0
+    blf.color(font_id, *text_highest)
+    blf.position(font_id, 20, height-40, 0)
+    blf.size(font_id, 12, 72)
+    blf.draw(font_id, '>>> ' + current_string)
 
 def draw_callback_px(self, context, start_position):
 
@@ -146,13 +154,10 @@ def draw_callback_px(self, context, start_position):
     begin_height = height-40
 
     font_id = 0
-
+    content = []
     
-    blf.color(font_id, *text_highest)
-    blf.position(font_id, 20, height-40, 0)
-    blf.size(font_id, 12, 72)
-    blf.draw(font_id, '>>> ' + self.current_string)
-
+    canvas = ShaderLib2D()
+    canvas.add_rect(0, height-46, width, 10*28, console_bg_color)
     # draw_rect(x=0, y=height-46, w=width, h=10*20, color=console_bg_color)
     
     nx = 20
@@ -162,7 +167,9 @@ def draw_callback_px(self, context, start_position):
 
         # // highlight
         # draw_rect(x=0, y=begin_height-(20*self.current_index)-7, w=width, h=18, color=highcol, color2=lowcol)
+        canvas.add_rect(0, begin_height-(20*self.current_index)-7, width, 18, lowcol)
         # draw_border(x=0, y=begin_height-(20*self.current_index)-7, w=width, h=18, color=(0.3, 0.3, 0.9, 1.0))
+        canvas.add_rect_outline(0, begin_height-(20*self.current_index)-7, width, 18, 0.2, "inside", (0.3, 0.3, 0.9, 1.0))
 
         # // draw search items
         for idx, search_item_result in enumerate(found_results, start=1):
@@ -172,8 +179,21 @@ def draw_callback_px(self, context, start_position):
 
             highlite = (idx == self.current_index + 1)
             
-            draw_string(nx, ny, zip(search_item_result, search_colors), highlite) 
+            content.append((nx, ny, zip(search_item_result, search_colors), highlite))
+            # draw_string(nx, ny, zip(search_item_result, search_colors), highlite) 
   
+    geom = canvas.compile()
+    shader = gpu.shader.from_builtin('2D_SMOOTH_COLOR')
+    batch = batch_for_shader(
+        shader, 
+        'TRIS',
+        {"pos": geom.vectors, "color": geom.vertex_colors}, indices=geom.indices
+    )
+    batch.draw(shader)
+
+    for element in content:
+        draw_string(*element)
+    draw_prompt(height, '>>> ', self.current_string)
 
 
 class XBCNodeViewConsole(bpy.types.Operator):
