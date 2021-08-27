@@ -59,3 +59,9 @@ def draw_string(x, y, packed_strings):
         blf.position(font_id, (x + x_offset), y, 0)
         blf.draw(font_id, pstr2)
         x_offset += text_width
+
+
+class Lib2D_Shader():
+
+    def __init__(self):
+        ...

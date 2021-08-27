@@ -147,10 +147,8 @@ def draw_callback_px(self, context, start_position):
 
     font_id = 0
 
-    # draw some text
-    # bgl.glColor4f(0.0, 0.0, 0.0, 1.0)
-    #      blf.color(font_id, *color) sets text
     
+    blf.color(font_id, *text_highest)
     blf.position(font_id, 20, height-40, 0)
     blf.size(font_id, 12, 72)
     blf.draw(font_id, '>>> ' + self.current_string)
@@ -176,10 +174,6 @@ def draw_callback_px(self, context, start_position):
             
             draw_string(nx, ny, zip(search_item_result, search_colors), highlite) 
   
-    # restore opengl defaults
-    # bgl.glLineWidth(1)
-    # bgl.glDisable(bgl.GL_BLEND)
-    # bgl.glColor4f(0.0, 0.0, 0.0, 1.0)
 
 
 class XBCNodeViewConsole(bpy.types.Operator):
