@@ -25,14 +25,14 @@ def launch_browser_search(operator, type_of_search, input_string):
     search_term = input_string.rsplit('?', 1)[0]
 
     if type_of_search == 'bpy':
-        search_head = 'https://docs.blender.org/api/blender_python_api_current/search.html?q='
+        search_head = 'https://docs.blender.org/api/current/search.html?q='
         search_tail = '&check_keywords=yes&area=default'
 
     elif type_of_search == 'py':
         search_head = 'http://docs.python.org/3/search.html?q='
 
     elif type_of_search == 'sv':
-        search_head = "http://sverchok.readthedocs.io/en/latest/search.html?q="
+        search_head = "https://nortikin.github.io/sverchok/docs/search.html?q="
         search_tail = "&check_keywords=yes&area=default"
 
     elif type_of_search == 'ghc':  # github code
