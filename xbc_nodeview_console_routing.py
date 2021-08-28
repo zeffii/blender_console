@@ -51,6 +51,11 @@ def launch_browser_search(operator, type_of_search, input_string):
     elif type_of_search == 'ar':
         search_head = "https://archive.org/search.php?query="
 
+    elif type_of_search == 'help':
+        search_head = "https://github.com/zeffii/blender_console/blob/master/commands.md"
+        search_term = ""
+        search_tail = ""
+
     try:
         full_url_term = ''.join([search_head, search_term, search_tail])
         webbrowser.open(full_url_term)
@@ -62,7 +67,7 @@ def launch_browser_search(operator, type_of_search, input_string):
 
 def route_as_websearch(operator):
     input_string = operator.current_string
-    if input_string.endswith(('?bpy', '?py', '?sv', '?ghc', '?gh', '?se', '?net', '?ar')):
+    if input_string.endswith(('?bpy', '?py', '?sv', '?ghc', '?gh', '?se', '?net', '?ar', '?help')):
         type_of_search = input_string.rsplit('?', 1)[1]
     else:
         return False
