@@ -32,7 +32,7 @@ from sverchok.utils.modules.shader_utils import ShaderLib2D
 
 from .xbc_nodeview_macro_routing import route_as_macro
 from .xbc_nodeview_console_routing import route_as_websearch
-from .utils.xbc_bgl_lib import draw_rect, draw_border
+# from .utils.xbc_bgl_lib import draw_rect, draw_border
 
 # pylint: disable=C0326
 # pylint: disable=w0612
@@ -157,30 +157,25 @@ def draw_callback_px(self, context, start_position):
     content = []
     
     canvas = ShaderLib2D()
-    canvas.add_rect(0, height-46, width, 10*28, console_bg_color)
-    # draw_rect(x=0, y=height-46, w=width, h=10*20, color=console_bg_color)
+    canvas.add_rect(0, height-46, width, 10*20, console_bg_color)
     
     nx = 20
     found_results = flat_node_cats.get('list_return')
 
     if found_results:
 
-        # // highlight
-        # draw_rect(x=0, y=begin_height-(20*self.current_index)-7, w=width, h=18, color=highcol, color2=lowcol)
+        # highlight
         canvas.add_rect(0, begin_height-(20*self.current_index)-7, width, 18, lowcol, highcol)
-        # draw_border(x=0, y=begin_height-(20*self.current_index)-7, w=width, h=18, color=(0.3, 0.3, 0.9, 1.0))
-        canvas.add_rect_outline(0, begin_height-(20*self.current_index)-7, width, 18, 0.2, "inside", (0.3, 0.3, 0.9, 1.0))
+        canvas.add_rect_outline(0, begin_height-(20*self.current_index)-7, width, 18, 1.0, "inside", (0.3, 0.3, 0.9, 1.0))
 
-        # // draw search items
+        # collect search item strings
         for idx, search_item_result in enumerate(found_results, start=1):
             ny = begin_height-(20*idx)
             if '.' in search_item_result[2]:
                 search_item_result[2] = search_item_result[2].replace('.', '/')
 
             highlite = (idx == self.current_index + 1)
-            
             content.append((nx, ny, zip(search_item_result, search_colors), highlite))
-            # draw_string(nx, ny, zip(search_item_result, search_colors), highlite) 
   
     geom = canvas.compile()
     shader = gpu.shader.from_builtin('2D_SMOOTH_COLOR')
