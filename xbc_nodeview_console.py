@@ -277,6 +277,13 @@ class XBCNodeViewConsole(bpy.types.Operator):
 
     def invoke(self, context, event):
         if context.area.type == 'NODE_EDITOR':
+
+            # [ ] make current session history available, maybe with ctrl+up/down ?
+            # [ ] make longterm session history available?
+
+            # unusually, if this is not set the operator seems to behave like it remembers the last string.
+            self.current_string = ""  
+
             flat_node_cats['results'] = make_flat_nodecats()
             start_position = 20, 20   # event.mouse_region_x, event.mouse_region_y
             args = (self, context, start_position)
