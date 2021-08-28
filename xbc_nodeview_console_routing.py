@@ -48,6 +48,8 @@ def launch_browser_search(operator, type_of_search, input_string):
     elif type_of_search == 'net':
         search_head = "https://duckduckgo.com/?q="
 
+    elif type_of_search == 'ar':
+        search_head = "https://archive.org/search.php?query="
 
     try:
         full_url_term = ''.join([search_head, search_term, search_tail])
@@ -60,7 +62,7 @@ def launch_browser_search(operator, type_of_search, input_string):
 
 def route_as_websearch(operator):
     input_string = operator.current_string
-    if input_string.endswith(('?bpy', '?py', '?sv', '?ghc', '?gh', '?se', '?net')):
+    if input_string.endswith(('?bpy', '?py', '?sv', '?ghc', '?gh', '?se', '?net', '?ar')):
         type_of_search = input_string.rsplit('?', 1)[1]
     else:
         return False
